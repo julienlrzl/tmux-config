@@ -1,0 +1,4 @@
+.target
+plugins/
+*.swp
+.DS_Store
