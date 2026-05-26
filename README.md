@@ -8,12 +8,11 @@ My personal tmux configuration — clean, fast, CTF-ready.
 
 ## Features
 
-- **Vim-style navigation** — `h/j/k/l` to move between panes, `|`/`-` to split
-- **Popups** — lazygit (`prefix+g`), btop (`prefix+t`), network info (`prefix+n`)
+- **Vim-style navigation** — `h/j/k/l` to move between panes, `v`/`s` to split
+- **Popups** — lazygit (`prefix+g`), btop (`prefix+b`), network info (`prefix+i`)
 - **CTF / Pentest** — target IP pinned in the status bar, set/clear with a keybind
-- **Smart window rename** — shows current directory when in shell, process name otherwise
-- **Session persistence** — auto-save every 15min via tmux-continuum, restore on start
-- **Status bar** — session name · windows · target IP · LAN IP · user@host · time/date
+- **Session & window picker** — `prefix+t` (sessions), `prefix+w` (windows)
+- **Status bar** — session name · target IP · date · time
 
 ---
 
@@ -32,8 +31,8 @@ My personal tmux configuration — clean, fast, CTF-ready.
 
 | Key | Action |
 |-----|--------|
-| `prefix + t` | Session picker (choose-tree) |
-| `prefix + w` | Window picker (choose-tree) |
+| `prefix + t` | Session picker |
+| `prefix + w` | Window picker |
 
 ### Popups
 
@@ -49,14 +48,15 @@ My personal tmux configuration — clean, fast, CTF-ready.
 | Key | Action |
 |-----|--------|
 | `prefix + I` | Set target IP |
-| `prefix + Ctrl+I` | Clear target |
+| `prefix + U` | Clear target |
 
 ### Copy mode
 
 | Key | Action |
 |-----|--------|
+| `prefix + e` | Enter copy mode |
 | `v` | Begin selection |
-| `y` | Copy to clipboard (pbcopy) |
+| `y` | Copy to clipboard |
 
 ### Misc
 
@@ -75,29 +75,10 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Then inside tmux, install plugins:
-
-```
-prefix + I
-```
-
 ### Requirements
 
 - tmux ≥ 3.3
-- [tpm](https://github.com/tmux-plugins/tpm) (auto-installed by `install.sh`)
-- `lazygit`, `btop` (optional — for popups)
-
----
-
-## Plugins
-
-| Plugin | Purpose |
-|--------|---------|
-| [tmux-sensible](https://github.com/tmux-plugins/tmux-sensible) | Sane defaults |
-| [tmux-yank](https://github.com/tmux-plugins/tmux-yank) | System clipboard |
-| [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) | Session save/restore |
-| [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) | Auto-save sessions |
-| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless vim ↔ tmux |
+- `lazygit`, `btop`, `glow` (optional — for popups)
 
 ---
 
@@ -114,7 +95,7 @@ prefix + I
 
 ```
 tmux-config/
-├── tmux.conf          # main config
+├── tmux.conf
 ├── scripts/
 │   ├── network-info.sh
 │   └── target.sh
