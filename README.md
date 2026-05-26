@@ -23,25 +23,33 @@ My personal tmux configuration — clean, fast, CTF-ready.
 
 | Key | Action |
 |-----|--------|
-| `prefix + \|` | Split vertical |
-| `prefix + -` | Split horizontal |
+| `prefix + v` | Split vertical |
+| `prefix + s` | Split horizontal |
 | `prefix + h/j/k/l` | Navigate panes |
 | `prefix + H/J/K/L` | Resize pane (5 cells) |
+
+### Sessions / Windows
+
+| Key | Action |
+|-----|--------|
+| `prefix + t` | Session picker (choose-tree) |
+| `prefix + w` | Window picker (choose-tree) |
 
 ### Popups
 
 | Key | Action |
 |-----|--------|
 | `prefix + g` | lazygit |
-| `prefix + t` | btop |
-| `prefix + n` | Network info (LAN / VPN / public IP) |
+| `prefix + b` | btop |
+| `prefix + i` | Network info (LAN / VPN / public IP) |
+| `prefix + ?` | Cheatsheet |
 
 ### CTF / Pentest
 
 | Key | Action |
 |-----|--------|
-| `prefix + T` | Set target IP |
-| `prefix + Ctrl+T` | Clear target |
+| `prefix + I` | Set target IP |
+| `prefix + Ctrl+I` | Clear target |
 
 ### Copy mode
 

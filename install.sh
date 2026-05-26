@@ -8,9 +8,9 @@ echo "→ Installing tmux config..."
 
 mkdir -p "$TMUX_DIR/scripts"
 
-# Symlink config
-ln -sf "$REPO_DIR/tmux.conf" "$TMUX_DIR/tmux.conf"
-echo "  ✓ tmux.conf → $TMUX_DIR/tmux.conf"
+# Symlink config (tmux charge depuis ~/.tmux.conf)
+ln -sf "$REPO_DIR/tmux.conf" "$HOME/.tmux.conf"
+echo "  ✓ tmux.conf → $HOME/.tmux.conf"
 
 # Symlink scripts
 for script in "$REPO_DIR/scripts/"*.sh; do
