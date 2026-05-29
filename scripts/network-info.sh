@@ -7,6 +7,7 @@ GREEN="\033[38;5;114m"
 ORANGE="\033[38;5;215m"
 RED="\033[38;5;203m"
 DIM="\033[2m"
+PURPLE="\033[38;5;183m"
 YELLOW="\033[38;5;221m"
 
 echo ""
@@ -14,13 +15,20 @@ echo "  ${BOLD}${CYAN}󰩟  Network Info${RESET}"
 echo "  ${DIM}────────────────────────────────${RESET}"
 echo ""
 
+# Hostname
+HOSTNAME=$(scutil --get ComputerName 2>/dev/null || hostname)
+printf "  ${DIM}      %-18s${RESET} ${PURPLE}${BOLD}%s${RESET}\n" "Hostname" "$HOSTNAME"
+echo ""
+
 # Loopback
 printf "  ${DIM}[lo]  %-18s${RESET} ${DIM}127.0.0.1${RESET}\n" "Loopback"
 
-# Wi-Fi
+# Wi-Fi + MAC
 WIFI=$(ipconfig getifaddr en0 2>/dev/null)
+MAC=$(ifconfig en0 2>/dev/null | awk '/ether/{print $2}')
 if [[ -n "$WIFI" ]]; then
   printf "  ${GREEN}${BOLD}[1]${RESET}${GREEN}   %-18s${RESET} ${GREEN}${BOLD}%s${RESET}\n" "Wi-Fi (en0)" "$WIFI"
+  [[ -n "$MAC" ]] && printf "  ${DIM}      %-18s${RESET} ${DIM}%s${RESET}\n" "MAC" "$MAC"
 else
   printf "  ${DIM}[1]   %-18s${RESET} ${DIM}non connecté${RESET}\n" "Wi-Fi (en0)"
 fi
@@ -42,14 +50,35 @@ else
   printf "  ${DIM}[2]   %-18s${RESET} ${DIM}aucun VPN actif${RESET}\n" "VPN"
 fi
 
+# DNS
+DNS_SERVERS=$(scutil --dns 2>/dev/null | awk '/nameserver/{print $3}' | sort -u | tr '\n' '  ' | sed 's/  $//')
+if [[ -n "$DNS_SERVERS" ]]; then
+  printf "  ${YELLOW}      %-18s${RESET} ${YELLOW}%s${RESET}\n" "DNS" "$DNS_SERVERS"
+fi
+
 echo ""
 echo "  ${DIM}────────────────────────────────${RESET}"
 
-# IP publique
+# IP publique + localisation (un seul appel curl)
 printf "  ${DIM}[3]   %-18s${RESET} ${DIM}récupération...${RESET}\r" "IP Publique"
-PUBLIC=$(curl -s --max-time 4 ipinfo.io/ip 2>/dev/null)
-if [[ -n "$PUBLIC" ]]; then
-  printf "  ${CYAN}${BOLD}[3]${RESET}${CYAN}   %-18s${RESET} ${CYAN}${BOLD}%s${RESET}\n" "IP Publique" "$PUBLIC"
+IPINFO=$(curl -s --max-time 4 ipinfo.io 2>/dev/null)
+if [[ -n "$IPINFO" ]]; then
+  PARSED=$(echo "$IPINFO" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+print(d.get('ip',''))
+print(d.get('city',''))
+print(d.get('country',''))
+" 2>/dev/null)
+  PUBLIC=$(echo "$PARSED" | sed -n '1p')
+  CITY=$(echo "$PARSED" | sed -n '2p')
+  COUNTRY=$(echo "$PARSED" | sed -n '3p')
+  if [[ -n "$PUBLIC" ]]; then
+    printf "  ${CYAN}${BOLD}[3]${RESET}${CYAN}   %-18s${RESET} ${CYAN}${BOLD}%s${RESET}\n" "IP Publique" "$PUBLIC"
+    [[ -n "$CITY" ]] && printf "  ${DIM}      %-18s${RESET} ${DIM}%s, %s${RESET}\n" "Localisation" "$CITY" "$COUNTRY"
+  else
+    printf "  ${RED}[3]   %-18s${RESET} ${RED}erreur${RESET}\n" "IP Publique"
+  fi
 else
   printf "  ${RED}[3]   %-18s${RESET} ${RED}timeout${RESET}\n" "IP Publique"
 fi
