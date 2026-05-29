@@ -12,7 +12,7 @@ My personal tmux configuration — clean, fast, CTF-ready.
 - **Popups** — lazygit (`prefix+g`), btop (`prefix+b`), network info (`prefix+i`)
 - **CTF / Pentest** — target IP pinned in the status bar, set/clear with a keybind
 - **Session & window picker** — `prefix+t` (sessions), `prefix+w` (windows)
-- **Status bar** — session name · target IP · date · time
+- **Status bar** — session name · target IP · date · time · connectivity dot (red/orange/green)
 
 ---
 
@@ -40,7 +40,7 @@ My personal tmux configuration — clean, fast, CTF-ready.
 |-----|--------|
 | `prefix + g` | lazygit |
 | `prefix + b` | btop |
-| `prefix + i` | Network info (LAN / VPN / public IP) |
+| `prefix + i` | Network info (hostname · LAN / VPN · MAC · DNS · public IP + location) |
 | `prefix + ?` | Cheatsheet |
 
 ### CTF / Pentest
@@ -86,8 +86,9 @@ chmod +x install.sh
 
 | Script | Description |
 |--------|-------------|
-| `scripts/network-info.sh` | Interactive popup: LAN / VPN / public IP with copy-to-clipboard |
-| `scripts/target.sh` | Reads `~/.config/tmux/.target` and renders the IP in the status bar |
+| `scripts/network-info.sh` | Interactive popup: hostname, LAN/VPN, MAC, DNS, public IP + geolocation |
+| `scripts/target.sh` | Reads `~/.config/tmux/.target` and renders the target IP in the status bar |
+| `scripts/connectivity.sh` | WiFi connectivity dot for the status bar (red = no wifi, orange = blocked, green = ok) |
 
 ---
 
@@ -98,7 +99,8 @@ tmux-config/
 ├── tmux.conf
 ├── scripts/
 │   ├── network-info.sh
-│   └── target.sh
+│   ├── target.sh
+│   └── connectivity.sh
 ├── install.sh
 └── .gitignore
 ```
