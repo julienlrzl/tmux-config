@@ -1,4 +1,7 @@
-# tmux-config
+# tmux-config - clean, fast, CTF-ready.
+![tmux](https://img.shields.io/badge/tmux-1BB91F?style=for-the-badge&logo=tmux&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)
+![Catppuccin](https://img.shields.io/badge/Catppuccin_Mocha-1e1e2e?style=for-the-badge&logoColor=CDD6F4)
 
 My personal tmux configuration — clean, fast, CTF-ready.
 
